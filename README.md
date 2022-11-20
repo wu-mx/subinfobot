@@ -23,6 +23,7 @@ Subinfo Bot时区由系统时区决定，错误的时区将导致获取结果出
 
 ### 使用
 您可以在私聊中对bot直接发送带有订阅链接的消息，bot将会自动提取文本中的订阅链接。
+在公开群组中，为了防止频繁的无意义的调用，请用/get + 订阅链接使用（私聊亦可）。
 ```
 10PB不限时机场订阅链接：https://subapi.paimon.gq/api/v1/client/subscribe?token=1145141919810subinfobotyyds
 
