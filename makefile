@@ -2,7 +2,7 @@ NAME=subinfobot
 BINDIR=bin
 VERSION=$(shell git describe --tags || echo "unknown version")
 COMMIT=$(git log --pretty=format:'%h' -1)
-GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "main.Version=$(VERSION)" \
+GOBUILD=CGO_ENABLED=0 go build -trimpath -ldflags '-X "main.version=$(VERSION)" \
 		-X "main.commit=$(COMMIT)" \
 		-w -s -buildid='
 
