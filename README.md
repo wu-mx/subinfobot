@@ -40,4 +40,4 @@ Subinfo Bot时区由系统时区决定，错误的时区将导致获取结果出
 [Dreamacro/clash](https://github.com/Dreamacro/clash)
 
 ### Licence
-[MIT](https://github.com/wu-mx/subinfobot/LICENSE.txt)
+[MIT](https://github.com/wu-mx/subinfobot/LICENSE)
