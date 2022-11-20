@@ -1,7 +1,7 @@
 # Subinfo Bot
 
 [![Action-Release](https://github.com/wu-mx/subinfobot/actions/workflows/Build.yml/badge.svg)](https://github.com/wu-mx/subinfobot/actions/workflows/Build.yml/)
-[![Download](https://img.shields.io/github/downloads/wu-mx/subinfobot/total.svg)](https://github.com/wu-mx/subinfobot/releases)
+
 #### 一个由Go编写的开源轻量订阅查询Telegram Bot。
 
 ### 快速开始
