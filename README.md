@@ -14,7 +14,7 @@ git clone https://github.com/wu-mx/subinfobot/
 go get 
 go build
 ```
-####快速启动
+#### 快速启动
 在启动程序参数中加入bot token即可。<br>
 Subinfo Bot时区由系统时区决定，错误的时区将导致获取结果出现偏差，更改方法请自行Google。
 ```shell
