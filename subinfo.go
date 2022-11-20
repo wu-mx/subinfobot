@@ -89,7 +89,7 @@ func getSinf(link string) (error, Subinfo) {
 				}
 			} else {
 				sinf.Available = 2
-				sinf.DataRemain = "未知"
+				sinf.DataRemain = "不知道捏"
 			}
 		} else {
 			sinf.Available = 2
@@ -127,8 +127,8 @@ func getSinf(link string) (error, Subinfo) {
 				}
 			}
 		} else {
-			sinf.ExpireTime = "没有说明捏"
-			sinf.TimeRemain = "未知"
+			sinf.ExpireTime = "未知"
+			sinf.TimeRemain = "可能是无限时长订阅或者服务器抽抽了呢"
 		}
 		return nil, sinf
 	}
