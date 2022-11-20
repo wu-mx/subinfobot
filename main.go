@@ -23,7 +23,7 @@ func main() {
 	if err != nil {
 		logger.Panic(fmt.Sprintf("Connect failed. %s", err))
 	}
-	bot.Debug = true
+	bot.Debug = false
 	logger.Printf("Connected with name %s.", bot.Self.UserName)
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
