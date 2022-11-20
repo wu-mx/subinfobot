@@ -4,11 +4,13 @@ import (
 	"errors"
 	"fmt"
 	_ "fmt"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"math"
 	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
+	"subinfobot/handler"
 	"subinfobot/utils"
 	"time"
 )
@@ -41,7 +43,7 @@ func getSinf(link string) (error, Subinfo) {
 		return errors.New(fmt.Sprintf("获取失败，服务器返回了代码%s", strconv.Itoa(res.StatusCode))), Subinfo{}
 	}
 	if sinfo := res.Header["Subscription-Userinfo"]; sinfo == nil {
-		return errors.New("未获取到订阅详细信息"), Subinfo{}
+		return errors.New("未获取到订阅详细信息，该订阅可能已经到期或者已被删除"), Subinfo{}
 	} else {
 		sinf := Subinfo{Link: link}
 		sinfmap := make(map[string]int64)
@@ -129,5 +131,38 @@ func getSinf(link string) (error, Subinfo) {
 			sinf.TimeRemain = "未知"
 		}
 		return nil, sinf
+	}
+}
+func subInfoMsg(link string, update *tgbotapi.Update, bot *tgbotapi.BotAPI, msg *tgbotapi.MessageConfig) {
+	msg.Text = "🕰获取中..."
+	msg.ReplyToMessageID = update.Message.MessageID
+	sres, err := handler.SendMsg(bot, msg)
+	handler.HandleError(err)
+	if err == nil {
+		err, sinf := getSinf(link)
+		handler.HandleError(err)
+		if err != nil {
+			_, err := handler.EditMsg(fmt.Sprintf("<strong>❌获取失败</strong>\n\n获取订阅<code>%s</code>时发生错误:\n<code>%s</code>", sinf.Link, err), "html", bot, sres)
+			handler.HandleError(err)
+			if update.Message.Chat.Type == "group" || update.Message.Chat.Type == "supergroup" {
+				_, _ = handler.DelMsgWithTimeOut(10*time.Second, bot, sres)
+			}
+		} else {
+			var resMsg string
+			if sinf.Expired == 0 && sinf.Available == 0 {
+				resMsg = "✅该订阅有效"
+			}
+			if sinf.Expired == 2 || sinf.Available == 2 {
+				resMsg = "❓该订阅状态未知"
+			}
+			if sinf.Expired == 1 || sinf.Available == 1 {
+				resMsg = "❌该订阅不可用"
+			}
+			_, err = handler.EditMsg(fmt.Sprintf("<strong>%s</strong>\n<strong>订阅链接:</strong><code>%s</code>\n<strong>总流量:</strong><code>%s</code>\n<strong>剩余流量:</strong><code>%s</code>\n<strong>已上传:</strong><code>%s</code>\n<strong>已下载:</strong><code>%s</code>\n<strong>该订阅将于<code>%s</code>过期,%s</strong>", resMsg, sinf.Link, sinf.Total, sinf.DataRemain, sinf.Upload, sinf.Download, sinf.ExpireTime, sinf.TimeRemain), "html", bot, sres)
+			handler.HandleError(err)
+			if update.Message.Chat.Type == "group" || update.Message.Chat.Type == "supergroup" {
+				_, _ = handler.DelMsgWithTimeOut(10*time.Second, bot, sres)
+			}
+		}
 	}
 }
