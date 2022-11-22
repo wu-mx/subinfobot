@@ -36,7 +36,7 @@ func main() {
 					linkReg := regexp.MustCompile("(http|https){0,1}://[^\\x{4e00}-\\x{9fa5}\\n\\r\\s]{3,}")
 					if linkReg.MatchString(update.Message.Text) {
 						slice := linkReg.FindAllStringSubmatch(update.Message.Text, -1)
-						subInfoMsg(slice[0][0], &update, bot, &msg)
+						go subInfoMsg(slice[0][0], &update, bot, &msg)
 					} else {
 						msg.Text = "❌没有在你发送的内容中找到任何有效信息哦！"
 						msg.ReplyToMessageID = update.Message.MessageID
@@ -79,7 +79,7 @@ func main() {
 						}
 					}
 				} else if strings.HasPrefix(commandSlice[1], "http://") || strings.HasPrefix(commandSlice[1], "https://") {
-					subInfoMsg(commandSlice[1], &update, bot, &msg)
+					go subInfoMsg(commandSlice[1], &update, bot, &msg)
 				} else {
 					msg.Text = "❌链接错误，请检查后再试"
 					msg.ReplyToMessageID = update.Message.MessageID
