@@ -11,6 +11,7 @@
 #### 自行编译
 ```shell
 git clone https://github.com/wu-mx/subinfobot/
+cd ./subinfobot
 go get 
 go build
 ```
